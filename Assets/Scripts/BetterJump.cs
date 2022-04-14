@@ -26,7 +26,7 @@ public class BetterJump : MonoBehaviour
             else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.W) && !player.isDead)
             {
                 //rb.velocity = new Vector2(0, 0);    //pulo mais controlado
-                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier/2 - 1) * Time.deltaTime;
             }
             if (Input.GetKey(KeyCode.S) && !player.isDead)
             {

@@ -15,14 +15,14 @@ public class EnemyMovement : MonoBehaviour
     }
     void Start()
     {
-        velocidade = gameController.velocidadeParede;
-        Destroy(gameObject, 9);
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-  
+        velocidade = gameController.velocidadeParede;
         transform.Translate(Vector3.left * velocidade * Time.deltaTime);
 
     }
