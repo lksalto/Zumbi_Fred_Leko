@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
+
+    public bool isStuck = true;
+    public bool trapped = false;
+
     float moveDirection;
     Rigidbody2D rb;
     public bool bCanJump = true;
     SpriteRenderer sprite;
     float horizontalInput;
     GameController gameController;
-    bool isStuck = true;
+
     float jumpCooldownCounter;
     Transform cameraPosX;
 
@@ -30,11 +33,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         cameraPosX = GetComponent<Transform>();
-
-    }
-    void Start()
-    {
-       
     }
 
     // Update is called once per frame
@@ -45,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         Debugger();
         CameraMovement();
         if (Input.GetKey(KeyCode.W) && bCanJump)
-        {
+        { 
             Jump();
         }
         Move();
@@ -63,28 +61,42 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        
         jumpCooldownCounter = jumpCooldown;
-        rb.velocity = new Vector2(0, fJumpForce);        
+        if (rb.velocity.y <= 0.5f)
+        {
+            rb.velocity = new Vector2(0, fJumpForce);
+        }
     }
 
-    void Move()
-    {
-        if (Input.GetKey(KeyCode.A))
-        {
-            horizontalInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(horizontalInput * moveSpeed * 3, rb.velocity.y);
-            isStuck = false;
+    void Move() {
+
+        if (trapped == false)
+        { 
+            if (Input.GetKey(KeyCode.A))
+            {
+
+                horizontalInput = Input.GetAxisRaw("Horizontal");
+                rb.velocity = new Vector2(horizontalInput * moveSpeed * 2 , rb.velocity.y);
+                isStuck = false;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                horizontalInput = Input.GetAxisRaw("Horizontal");
+                rb.velocity = new Vector2(horizontalInput * moveSpeed/3, rb.velocity.y);
+                isStuck = false;
+            }
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            {
+                isStuck = true;
+                
+            }
         }
-        else if (Input.GetKey(KeyCode.D))
+        else
         {
-            horizontalInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
-            isStuck = false;
-        }
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        {
+            Debug.Log("TO PRESO PORRA");
             isStuck = true;
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            rb.velocity = new Vector2(horizontalInput * moveSpeed * -0.6f, rb.velocity.y);
         }
     }
 

@@ -5,12 +5,13 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
 
-    
+   
     GameController gameController;
     float velocidade;
     // Start is called before the first frame update
     private void Awake()
     {
+        
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
     }
     void Start()
